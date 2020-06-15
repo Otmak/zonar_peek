@@ -124,9 +124,10 @@ async function runit() {
 
         let l_valuesArr = [gpsid, firmware, phhm, lastinspdate, scid];
         let l_keysArr = ['GPSID', 'Firmware', 'Last Phhm', 'Last inspection Date', 'SCID'];
-        let r_valuesArr = [covertEpochToTime(checkNaN(r)), r.locationActivity.source, r.locationActivity.power, speed, r.locationActivity.address];
-        let r_keysArr = ['Last Entry', 'Source', 'Power', 'Speed', 'Addres'];
+        let r_valuesArr = [covertEpochToTime(checkNaN(r)), r.locationActivity.source, r.locationActivity.power, speed];
+        let r_keysArr = ['Last Entry', 'Source', 'Power', 'Speed'];
         //console.log(covertEpochToTime(checkNaN(r)),r)
+        console.log(r.locationActivity)
 
         const asset_info = document.createElement('div');
         const div_left = document.createElement('div');

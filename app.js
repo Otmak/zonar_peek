@@ -37,7 +37,7 @@ run.post('/getapis', async (req,res)=>{
         return obj
     })
 
-    res.redirect('/index2.html')
+    res.redirect('/home.html')
 })
 
 run.get('/dashboard', async (req, res)=>{
