@@ -2,7 +2,7 @@ const main_container = document.getElementById('main_container');
 const b_container = document.getElementById('b_container');
 const tabs_container = document.getElementById('asset_tab_container');
 const asset_tab_content = document.getElementById('asset_tab_content');
-const tabLoader = document.getElementById('loader');
+//const tabLoader = document.getElementById('loader');
 const main_ul = document.getElementById('main_ul');
 //tabs_container.appendChild(tabLoader)
 tabs_container.appendChild(main_ul)
@@ -10,7 +10,6 @@ tabs_container.appendChild(main_ul)
 async function runit() {
     const req = await fetch('dashboard');
     const allTheData = await req.json();
-    //console.log(allTheData)
 
     const gpsAPI = allTheData.gps_DATA.gpslist.gps;
     const assetAPI = allTheData.asset_DATA.assetlist.asset;
@@ -38,10 +37,10 @@ async function runit() {
 
             obj3.map(l=>{
                 y = l['$'].id
-                if (assetNo == l['$'].fleet) {
+                if (assetNo === l['$'].fleet) {
                     i['locationActivity'] = l
                 }
-                if (assetID == '' || gpsID == '' || i['locationActivity'] == undefined) {
+                if (assetID === '' || gpsID === '' || i['locationActivity'] === undefined) {
                     i['locationActivity'] = 'empty'
                 }
             })
@@ -73,11 +72,11 @@ async function runit() {
 
 
         function checkUndefinedINS(h) {
-            return h.gpsdata['$'] == undefined ? ':/' : h.gpsdata['$'].lastinspdate
+            return h.gpsdata['$'] === undefined ? ':/' : h.gpsdata['$'].lastinspdate
         }
 
         function checkUndefinedSPD(h) {
-            return h.locationActivity.speed == undefined ? ':/' : `${h.locationActivity.speed['_']} ${h.locationActivity.speed['$'].unit}`
+            return h.locationActivity.speed === undefined ? ':/' : `${h.locationActivity.speed['_']} ${h.locationActivity.speed['$'].unit}`
         }
 
         function checkNaN(h) {
@@ -87,7 +86,7 @@ async function runit() {
 
         function covertEpochToTime(t) {
             let time
-            if (t == 'NaN') {
+            if (t === 'NaN') {
                 time = ':/'
             } else {
                 let dt = new Date(t * 1000)
@@ -111,7 +110,7 @@ async function runit() {
             activeIco.setAttribute('class', 'activeIco');
             activeIco.textContent = 'a'
 
-            const sta = h.status == 1 ? aTag.appendChild(activeIco) : aTag.appendChild(inactiveIco);
+            const sta = h.status === 1 ? aTag.appendChild(activeIco) : aTag.appendChild(inactiveIco);
             //console.log(sta)
             return sta
         }
@@ -181,7 +180,7 @@ async function runit() {
         function init() {
             const tabListItems = main_ul.childNodes;
             for (let i = 0; i < tabListItems.length; i++) {
-                if (tabListItems[i].nodeName == 'LI') {
+                if (tabListItems[i].nodeName === 'LI') {
                     const tabLink = getFirstChildTagName(tabListItems[i], 'A');
                     const id = getHref(tabLink.getAttribute('href'))
 
