@@ -110,7 +110,7 @@ async function runit() {
             activeIco.setAttribute('class', 'activeIco');
             activeIco.textContent = 'a'
 
-            const sta = h.status === 1 ? aTag.appendChild(activeIco) : aTag.appendChild(inactiveIco);
+            const sta = h.status == 1 ? aTag.appendChild(activeIco) : aTag.appendChild(inactiveIco);
             //console.log(sta)
             return sta
         }
@@ -126,7 +126,7 @@ async function runit() {
         let r_valuesArr = [covertEpochToTime(checkNaN(r)), r.locationActivity.source, r.locationActivity.power, speed];
         let r_keysArr = ['Last Entry', 'Source', 'Power', 'Speed'];
         //console.log(covertEpochToTime(checkNaN(r)),r)
-        console.log(r.locationActivity)
+        //console.log(r.locationActivity)
 
         const asset_info = document.createElement('div');
         const div_left = document.createElement('div');

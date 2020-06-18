@@ -9,6 +9,14 @@ run.listen(5500, (req,res)=>{
     console.log( "**You're Connected at port : 5500")
 })
 const obj = {}
+
+run.post('/getpath', async (req, res) =>{
+    const p = req.body
+    const m = req.body
+
+    console.log(p,m)
+})
+
 run.post('/getapis', async (req,res)=>{
     const acc = req.body.accountCode
     const pass = req.body.password
