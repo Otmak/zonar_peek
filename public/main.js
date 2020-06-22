@@ -53,7 +53,7 @@ async function runit() {
     //     //console.log(j)
     // })
 
-    mergeCalls(assetAPI, gpsAPI, locationAPI).map((r)=>{
+    mergeCalls(assetAPI, gpsAPI, locationAPI).map(async (r)=>{
         const tab = document.createElement('li');
         const aTag = document.createElement('a');
         const assetSpan = document.createElement('span');
@@ -118,6 +118,7 @@ async function runit() {
         assetSpan.textContent = asset
         main_ul.appendChild(tab);
         tab.appendChild(aTag)
+        tab.setAttribute('data-set', idHandle)
         aTag.appendChild(assetSpan);
         aTag.setAttribute('href', `#id_${idHandle}`);
 
@@ -136,6 +137,7 @@ async function runit() {
         div_right.setAttribute('class', 'div_right');
 
         asset_info.setAttribute('id', `id_${idHandle}`);
+        asset_info.setAttribute('data-path-data', idHandle)
         const h2 = document.createElement('h2');
 
         for (var i = 0; i < l_valuesArr.length; i++) {
@@ -177,6 +179,63 @@ async function runit() {
         const contentDivs = new Array();
 
         ////////////////////////////////////////
+        async function showMePath(id_) {
+
+            const table_div = document.createElement('div')
+            table_div.setAttribute('id', `table_div ${idHandle}`)
+            //const theId = closest('.asset_tab').getAttribute('data-set')
+
+            console.log(table_div, idHandle)
+            const p = allTheData.pass
+            const ac = allTheData.acode
+            const req = await fetch('getpath', {
+                method: 'POST',
+                body: JSON.stringify({
+                    'item': idHandle,
+                    'thepass': p,
+                    'theaccount': ac
+                }),
+                headers: {'Content-Type': 'application/json'}
+            })
+
+            const fetch_path = await fetch('postpath')
+            const parse_path = await fetch_path.json()
+            const data = parse_path.path
+            console.log(data)
+
+
+            let totalColumns = Object.keys(data[0]).length;
+            let columnNames = [];
+            columnNames = Object.keys(data[0]);
+            const table = document.createElement("TABLE");
+
+            //Add the header row.
+            let row = table.insertRow(-1);
+            for (let i = 0; i < totalColumns; i++) {
+                let headerCell = document.createElement("TH");
+                headerCell.innerHTML = columnNames[i];
+                row.appendChild(headerCell);
+            }
+
+            // Add the data rows.
+            for (let i = 0; i < data.length; i++) {
+                row = table.insertRow(-1);
+                columnNames.forEach(function (columnName) {
+                    let cell = row.insertCell(-1);
+                    cell.innerHTML = data[i][columnName];
+                });
+            }
+
+            //const dvTable = document.getElementById("dvTable");
+            asset_tab_content.appendChild(table_div)
+            table_div.innerHTML = "";
+            table_div.appendChild(table);
+
+            }
+           // showMePath(idHandle)
+
+
+        ///////////////////////////////////////
         function init() {
             const tabListItems = main_ul.childNodes;
             for (let i = 0; i < tabListItems.length; i++) {
@@ -213,11 +272,14 @@ async function runit() {
 
         function showContent() {
             const selectedId = getHref(this.getAttribute('href'));
+            const hId = this.parentNode.getAttribute('data-set');
+            //console.log(hId)
 
             for (let id in contentDivs) {
                 if (id == selectedId) {
                     tabLinks[id].parentNode.classList.add('selected');
                     contentDivs[id].className = 'data_tab_content';
+                    //showMePath(hId);
                 } else {
                     tabLinks[id].parentNode.classList.remove('selected');
                     contentDivs[id].className = 'data_tab_content hide';
@@ -245,6 +307,7 @@ async function runit() {
         //console.log(asset, status)
     }
     )
+
 
     search.addEventListener('keyup', e=>{
         e.preventDefault()

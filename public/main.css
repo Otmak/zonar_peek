@@ -197,3 +197,19 @@ span.activeIco{
 	float: right;
 	display: block;
 }
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+	border: 1px solid #ddd;
+	background-color: #cccccc;
+}
+
+th, td {
+	text-align: left;
+	padding: 10px;
+}
+
+tr:nth-child(even) {
+	background-color: #f2f2f2;
+}
