@@ -45,13 +45,8 @@ async function runit() {
                 }
             })
         })
-        //console.log(obj1)
         return obj1
     }
-
-    // mergeCalls( assetAPI, gpsAPI, locationAPI ).map(j=>{
-    //     //console.log(j)
-    // })
 
     mergeCalls(assetAPI, gpsAPI, locationAPI).map(async (r)=>{
         const tab = document.createElement('li');
@@ -114,7 +109,9 @@ async function runit() {
             //console.log(sta)
             return sta
         }
-        //console.log(covertEpochToTime(checkNaN(r)))
+
+
+        tab.setAttribute('data-path', idHandle);
         assetSpan.textContent = asset
         main_ul.appendChild(tab);
         tab.appendChild(aTag)
@@ -122,23 +119,25 @@ async function runit() {
         aTag.appendChild(assetSpan);
         aTag.setAttribute('href', `#id_${idHandle}`);
 
-        let l_valuesArr = [gpsid, firmware, phhm, lastinspdate, scid];
-        let l_keysArr = ['GPSID', 'Firmware', 'Last Phhm', 'Last inspection Date', 'SCID'];
-        let r_valuesArr = [covertEpochToTime(checkNaN(r)), r.locationActivity.source, r.locationActivity.power, speed];
-        let r_keysArr = ['Last Entry', 'Source', 'Power', 'Speed'];
+        let l_valuesArr = [gpsid, firmware, phhm, lastinspdate, scid, covertEpochToTime(checkNaN(r)), r.locationActivity.source, r.locationActivity.power, speed];
+        let l_keysArr = ['GPSID', 'Firmware', 'Last Phhm', 'Last inspection Date', 'SCID', 'Last Entry', 'Source', 'Power', 'Speed'];
+        //let r_valuesArr = [covertEpochToTime(checkNaN(r)), r.locationActivity.source, r.locationActivity.power, speed];
+        //let r_keysArr = ['Last Entry', 'Source', 'Power', 'Speed'];
         //console.log(covertEpochToTime(checkNaN(r)),r)
         //console.log(r.locationActivity)
 
         const asset_info = document.createElement('div');
         const div_left = document.createElement('div');
-        const div_right = document.createElement('div');
+        //const div_right = document.createElement('div');
         asset_info.setAttribute('class', 'data_tab_content');
         div_left.setAttribute('class', 'div_left');
-        div_right.setAttribute('class', 'div_right');
+        //div_right.setAttribute('class', 'div_right');
 
         asset_info.setAttribute('id', `id_${idHandle}`);
         asset_info.setAttribute('data-path-data', idHandle)
         const h2 = document.createElement('h2');
+        h2.setAttribute('class', 'top_header');
+
 
         for (var i = 0; i < l_valuesArr.length; i++) {
             const keys = document.createElement('span');
@@ -153,23 +152,23 @@ async function runit() {
             div_left.appendChild(values)
         }
 
-        for (var i = 0; i < r_valuesArr.length; i++) {
-            const keys = document.createElement('span');
-            const values = document.createElement('span');
-            keys.setAttribute('class', 'childof_div_right keys')
-            values.setAttribute('class', 'childof_div_right values')
-
-            keys.textContent = r_keysArr[i];
-            values.textContent = r_valuesArr[i];
-            div_right.appendChild(keys)
-            div_right.appendChild(values)
-            //r_valuesArr[i]
-        }
+        // for (var i = 0; i < r_valuesArr.length; i++) {
+        //     const keys = document.createElement('span');
+        //     const values = document.createElement('span');
+        //     keys.setAttribute('class', 'childof_div_right keys')
+        //     values.setAttribute('class', 'childof_div_right values')
+        //
+        //     keys.textContent = r_keysArr[i];
+        //     values.textContent = r_valuesArr[i];
+        //     div_right.appendChild(keys)
+        //     div_right.appendChild(values)
+        //     //r_valuesArr[i]
+        // }
 
         asset_tab_content.appendChild(asset_info);
         asset_info.appendChild(h2);
         asset_info.appendChild(div_left);
-        asset_info.appendChild(div_right);
+        //asset_info.appendChild(div_right);
 
         h2.textContent = " ASSET  : " + asset;
 
@@ -179,60 +178,6 @@ async function runit() {
         const contentDivs = new Array();
 
         ////////////////////////////////////////
-        async function showMePath(id_) {
-
-            const table_div = document.createElement('div')
-            table_div.setAttribute('id', `table_div ${idHandle}`)
-            //const theId = closest('.asset_tab').getAttribute('data-set')
-
-            console.log(table_div, idHandle)
-            const p = allTheData.pass
-            const ac = allTheData.acode
-            const req = await fetch('getpath', {
-                method: 'POST',
-                body: JSON.stringify({
-                    'item': idHandle,
-                    'thepass': p,
-                    'theaccount': ac
-                }),
-                headers: {'Content-Type': 'application/json'}
-            })
-
-            const fetch_path = await fetch('postpath')
-            const parse_path = await fetch_path.json()
-            const data = parse_path.path
-            console.log(data)
-
-
-            let totalColumns = Object.keys(data[0]).length;
-            let columnNames = [];
-            columnNames = Object.keys(data[0]);
-            const table = document.createElement("TABLE");
-
-            //Add the header row.
-            let row = table.insertRow(-1);
-            for (let i = 0; i < totalColumns; i++) {
-                let headerCell = document.createElement("TH");
-                headerCell.innerHTML = columnNames[i];
-                row.appendChild(headerCell);
-            }
-
-            // Add the data rows.
-            for (let i = 0; i < data.length; i++) {
-                row = table.insertRow(-1);
-                columnNames.forEach(function (columnName) {
-                    let cell = row.insertCell(-1);
-                    cell.innerHTML = data[i][columnName];
-                });
-            }
-
-            //const dvTable = document.getElementById("dvTable");
-            asset_tab_content.appendChild(table_div)
-            table_div.innerHTML = "";
-            table_div.appendChild(table);
-
-            }
-           // showMePath(idHandle)
 
 
         ///////////////////////////////////////
@@ -260,7 +205,6 @@ async function runit() {
                 //console.log(i)
                 // console.log(tabLinks[id])
             }
-            //console.log('frst :', i)
 
             i = 0;
             for (var id in contentDivs) {
@@ -272,13 +216,31 @@ async function runit() {
 
         function showContent() {
             const selectedId = getHref(this.getAttribute('href'));
-            const hId = this.parentNode.getAttribute('data-set');
-            //console.log(hId)
+            const path_id = this.parentNode.getAttribute('data-path')
+
 
             for (let id in contentDivs) {
                 if (id == selectedId) {
                     tabLinks[id].parentNode.classList.add('selected');
                     contentDivs[id].className = 'data_tab_content';
+
+
+                    const thepgsid = contentDivs[id].childNodes[1].childNodes[1].innerHTML
+
+                    function isgpsEmpty(){
+
+                        return thepgsid =='' ? 0 : thepgsid
+                    }
+
+                    //console.log(isgpsEmpty())
+                    //console.log( document.getElementById(`table_div_${path_id}`) )
+                    if (document.getElementById(`table_div_${path_id}`) ){
+                        console.log('it exits')
+                    }else{
+                        console.log('No div found')
+                        showMePath(path_id, contentDivs[id], isgpsEmpty())
+                    }
+
                     //showMePath(hId);
                 } else {
                     tabLinks[id].parentNode.classList.remove('selected');
@@ -305,6 +267,136 @@ async function runit() {
 
         init()
         //console.log(asset, status)
+            //////////////////////////////// THE PATH ///////////////////////////////////
+
+            async function showMePath(id_, parentDiv, mani) {
+
+                const table_div = document.createElement('div')
+                table_div.setAttribute('id', `table_div_${id_}`)
+                table_div.setAttribute('data-check', id_)
+                table_div.setAttribute('class', 'table_div')
+                //const theId = closest('.asset_tab').getAttribute('data-set')
+
+                //console.log(table_div, idHandle)
+                const p = allTheData.pass
+                const ac = allTheData.acode
+                const req = await fetch('getpath', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        'item': id_,
+                        'mani': mani,
+                        'thepass': p,
+                        'theaccount': ac,
+                    }),
+                    headers: {'Content-Type': 'application/json'}
+                })
+
+                const fetch_path = await fetch('postpath')
+                const parse_the_data = await fetch_path.json()
+
+                const data = parse_the_data.path
+                const maniData = parse_the_data.mani
+
+                if ( maniData == 404 )
+                {
+                    const mani_oops = document.createElement('div');
+                    const mani_p = document.createElement('p');
+                    const div_right = document.createElement('div');
+                    div_right.setAttribute('class', 'div_right content_divs');
+                    mani_oops.setAttribute('class', 'mani_oops')
+                    mani_p.textContent = 'No data to show here'
+                    div_right.appendChild(mani_oops);
+                    mani_oops.appendChild(mani_p);
+                    parentDiv.appendChild(div_right);
+                    console.log('MANI dont exist')
+
+                }else
+                {
+                    //console.log(maniData)
+                    //const mani_container = document.createElement('div')
+                    const div_right = document.createElement('div');
+                    div_right.setAttribute('class', 'div_right content_divs');
+                    let apps_arr = maniData.packageManifest.apps
+                    const the_head = document.createElement('span')
+                    the_head.setAttribute('class', 'the_head')
+                    the_head.textContent = `${apps_arr[0].label} (${apps_arr[0].availableVersionCode})`;
+
+                    const mani_details = document.createElement('details')
+                    const mani_summary = document.createElement('summary')
+                    mani_summary.textContent = 'Apps'
+                    for (var i = 1; i < apps_arr.length; i++) {
+                        //console.log(apps_arr[i])
+                        const mani_s = document.createElement('p')
+
+                        mani_s.textContent = `${apps_arr[i].label} (${apps_arr[i].availableVersionCode})`
+
+                        mani_details.appendChild(mani_s);
+                        //div_right.appendChild(mani_s);
+                    }
+                    mani_details.appendChild(mani_summary);
+                    parentDiv.appendChild(div_right);
+                    div_right.appendChild(mani_details);
+                    div_right.appendChild(the_head);
+                    console.log(maniData)
+                }
+
+                if ( data == 404)
+                {
+                    //console.log('well this is awkward -_-')
+                    const oops = document.createElement('div');
+                    oops.setAttribute('class', 'oops_div content_divs')
+                    const oops_span = document.createElement('span');
+
+                    oops_span.textContent = 'Well this is awkward -_-';
+                    parentDiv.appendChild(oops);
+                    oops.appendChild(table_div);
+                    table_div.appendChild(oops_span);
+
+                }else
+                {
+                    //let alltotalColumns = Object.keys(data[0]).length
+                    //console.log(alltotalColumns - 3)
+                    let totalColumns = Object.keys(data[0]).length - 4;
+                    let columnNames = [];
+                    columnNames = Object.keys(data[0]);
+                    const table = document.createElement("TABLE");
+
+                    //Add the header row.
+                    columnNames.splice(9)
+                    columnNames.splice(7, 1)
+                    //console.log(columnNames)
+                    let row = table.insertRow(-1);
+                    for (let i = 0; i < totalColumns; i++) {
+                        let headerCell = document.createElement("TH");
+                        headerCell.innerHTML = columnNames[i];
+                        row.appendChild(headerCell);
+                        //columnNames.splice(6, 1, 'distance')
+                    }
+
+                    // Add the data rows.
+                    for (let i = 0; i < data.length; i++) {
+                        row = table.insertRow(-1);
+                        columnNames.forEach(function (columnName) {
+                            let cell = row.insertCell(-1);
+                            cell.innerHTML = data[i][columnName];
+                        });
+                    }
+                    //console.log(table_div, table_div.parentNode)
+
+                    //const dvTable = document.getElementById("dvTable");
+                    //table_div.setAttribute('id', id_);
+                    parentDiv.appendChild(table_div)
+                    table_div.innerHTML = "";
+                    table_div.appendChild(table);
+                    //console.log(parentDiv, table_div)
+
+                }
+
+
+            }
+            ///////////////////////////////////////////////////////////////////
+
+
     }
     )
 

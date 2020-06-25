@@ -45,14 +45,14 @@ form input#search:focus {
 }
 /*SEARCH STYLE END*/
 div#loader {
-  margin : auto;
-  position: absolute;
-  border: 16px solid #f3f3f3;
-  border-radius: 50%;
-  border-top: 16px solid #3498db;
-  width: 20px;
-  height: 20px;
-  animation: spin .3s linear infinite;
+	margin : auto;
+	position: absolute;
+	border: 16px solid #f3f3f3;
+	border-radius: 50%;
+	border-top: 16px solid #3498db;
+	width: 20px;
+	height: 20px;
+	animation: spin .3s linear infinite;
 }
 
 /* Safari */
@@ -62,16 +62,16 @@ div#loader {
 }*/
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
 }
 div#tabs_container{
-    float: left;
-    width: 25%;
-    height: 90vh;
-    list-style: none;
-    background-color: #ffff;
-    padding: .8em;
+	float: left;
+	width: 25%;
+	height: 90vh;
+	list-style: none;
+	background-color: #ffff;
+	padding: .8em;
 }
 div#asset_tab_container{
 	width: 100%;
@@ -87,6 +87,72 @@ div#asset_tab_content{
 	float: right;
 
 }
+
+/*Experiment*/
+div.div_right{
+	display:grid;
+	/*box-sizing: border-box;*/
+	/*grid-template-columns: max-content max-content;*/
+	background-color: #fff;
+	margin-left: .7em;
+	/*text-align: center;*/
+	/*width: 100%;*/
+	/*box-shadow: 0 10px 6px -6px #777;*/
+	float: right;
+
+}
+div.div_left{
+	display:grid;
+	box-sizing: border-box;
+	grid-template-columns: max-content max-content;
+	background-color: #fff;
+	/*	width: 400px;*/
+	height: max-content;
+	/*box-shadow: 0 10px 6px -6px #777;*/
+	float: left;
+	/*box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034), 0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06), 0 22.3px 17.9px rgba(0, 0, 0, 0.072), 0 41.8px 33.4px rgba(0, 0, 0, 0.086), 0 100px 80px rgba(0, 0, 0, 0.12);*/
+	/*flex-direction: row;*/
+	/*flex-direction: column;*/
+}
+
+/***************** THE GRID CONTROL*/
+
+.data_tab_content {
+	display: grid;
+	grid-template-areas: "header header header header"
+	"main main sidebar sidebar"
+	"main main sidebar sidebar"
+	"footer footer footer footer";
+	grid-template-columns: 400px 1px auto 1px;
+}
+
+.top_header {
+	grid-area: header;
+}
+
+.div_left {
+	grid-area: main;
+}
+
+.div_right {
+	grid-area: sidebar;
+}
+
+.table_div {
+	grid-area: footer;
+	margin-top: 1em;
+}
+.oops_div {
+	grid-area: footer;
+}
+
+
+/******************END GRID CONTROL*/
+
+details p {
+	text-indent: 40px;
+}
+
 div.data_tab_content.hide {
 	display: none;
 }
@@ -99,9 +165,6 @@ span.childof_div_left{
 	border-bottom: 1px dotted #ddd;
 }
 
-div.div_left>.childof_div_left{
-	flex-direction: column;
-}
 
 div.data_tab_content h2{
 	background-color: #fff;
@@ -109,45 +172,32 @@ div.data_tab_content h2{
 	margin-top: 0;
 }
 
-
-
-/*Experiment*/
-div.div_right{
-	box-sizing: border-box;
-	background-color: #fff;
-	display:grid;
-	grid-template-columns: max-content max-content;
-	width: 405px;
-	height: max-content;
-	box-shadow: 0 10px 6px -6px #777;
-
+div.mani_oops {
+	justify-content: center;
 }
-div.div_left{
-	display:grid;
-	box-sizing: border-box;
-	grid-template-columns: max-content max-content;
-	background-color: #fff;
-	width: 405px;
-	height: max-content;
-	box-shadow: 0 10px 6px -6px #777;
-	/*box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034), 0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06), 0 22.3px 17.9px rgba(0, 0, 0, 0.072), 0 41.8px 33.4px rgba(0, 0, 0, 0.086), 0 100px 80px rgba(0, 0, 0, 0.12);*/
-	/*flex-direction: row;*/
-	/*flex-direction: column;*/
+
+.mani_oops p {
+	margin: auto;
 }
+
 span.childof_div_left {
-    padding: .1em;
-    border-bottom: 1px dotted #ddd;
-    padding: 1em;
+	padding: .1em;
+	border-bottom: 1px dotted #ddd;
+	padding: 1em;
 }
 
 span.childof_div_right{
 	padding: .1em;
-    border-bottom: 1px dotted #ddd;
-    padding: 1em
+	border-bottom: 1px dotted #ddd;
+	padding: 1em;
+	float: right;
 }
 span.values{
 	font-weight: bold;
+	float: right;
+	text-align: right;
 }
+
 .asset_tab{
 	padding: 1em;
 	display: flex;
@@ -197,12 +247,28 @@ span.activeIco{
 	float: right;
 	display: block;
 }
+div.mani_oops{
+	display: grid;
+	align-items: center;
+
+}
+div.oops_div {
+	margin: 1em;
+	text-align: center;
+	padding: 1em;
+	width: 100%;
+}
+
+div.table_div {
+	background-color: #fff;
+}
 
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
 	border: 1px solid #ddd;
-	background-color: #cccccc;
+	width: 100%;
+
 }
 
 th, td {
