@@ -15,8 +15,6 @@ async function runit() {
     const assetAPI = allTheData.asset_DATA.assetlist.asset;
     const locationAPI = allTheData.location_DATA.currentlocations.asset
 
-    //console.log(locationAPI)
-    const final = {}
 
     function mergeCalls(obj1, obj2, obj3) {
         let g = 0, x, y, z, gpsID, assetID, assetNo;
@@ -34,7 +32,6 @@ async function runit() {
                     i['gpsdata'] = 'empty'
                 }
             })
-
             obj3.map(l=>{
                 y = l['$'].id
                 if (assetNo === l['$'].fleet) {
@@ -48,13 +45,14 @@ async function runit() {
         return obj1
     }
 
+
     mergeCalls(assetAPI, gpsAPI, locationAPI).map(async (r)=>{
         const tab = document.createElement('li');
         const aTag = document.createElement('a');
         const assetSpan = document.createElement('span');
         tab.setAttribute('class', 'asset_tab');
 
-        //console.log(r)
+
         const asset = r.fleet
           , gpsid = r.gps
           , idHandle = r['$'].id
@@ -106,7 +104,6 @@ async function runit() {
             activeIco.textContent = 'a'
 
             const sta = h.status == 1 ? aTag.appendChild(activeIco) : aTag.appendChild(inactiveIco);
-            //console.log(sta)
             return sta
         }
 
@@ -121,17 +118,13 @@ async function runit() {
 
         let l_valuesArr = [gpsid, firmware, phhm, lastinspdate, scid, covertEpochToTime(checkNaN(r)), r.locationActivity.source, r.locationActivity.power, speed];
         let l_keysArr = ['GPSID', 'Firmware', 'Last Phhm', 'Last inspection Date', 'SCID', 'Last Entry', 'Source', 'Power', 'Speed'];
-        //let r_valuesArr = [covertEpochToTime(checkNaN(r)), r.locationActivity.source, r.locationActivity.power, speed];
-        //let r_keysArr = ['Last Entry', 'Source', 'Power', 'Speed'];
-        //console.log(covertEpochToTime(checkNaN(r)),r)
-        //console.log(r.locationActivity)
+
 
         const asset_info = document.createElement('div');
         const div_left = document.createElement('div');
-        //const div_right = document.createElement('div');
         asset_info.setAttribute('class', 'data_tab_content');
         div_left.setAttribute('class', 'div_left');
-        //div_right.setAttribute('class', 'div_right');
+
 
         asset_info.setAttribute('id', `id_${idHandle}`);
         asset_info.setAttribute('data-path-data', idHandle)
@@ -152,27 +145,13 @@ async function runit() {
             div_left.appendChild(values)
         }
 
-        // for (var i = 0; i < r_valuesArr.length; i++) {
-        //     const keys = document.createElement('span');
-        //     const values = document.createElement('span');
-        //     keys.setAttribute('class', 'childof_div_right keys')
-        //     values.setAttribute('class', 'childof_div_right values')
-        //
-        //     keys.textContent = r_keysArr[i];
-        //     values.textContent = r_valuesArr[i];
-        //     div_right.appendChild(keys)
-        //     div_right.appendChild(values)
-        //     //r_valuesArr[i]
-        // }
 
         asset_tab_content.appendChild(asset_info);
         asset_info.appendChild(h2);
         asset_info.appendChild(div_left);
-        //asset_info.appendChild(div_right);
 
         h2.textContent = " ASSET  : " + asset;
 
-        //const handle = document.querySelectorAll('.data_tab_content');
 
         const tabLinks = new Array();
         const contentDivs = new Array();

@@ -34,10 +34,8 @@ run.post('/getpath', async (req, res) =>{
     }
 
     path_req.pathevents.assets == null ? the_path_data['path'] = '404' : the_path_data['path'] = path_req.pathevents.assets[0].events;
-
     mani_req.error ? the_path_data['mani'] = '404' : the_path_data['mani'] = mani_req;
 
-    //console.log(the_path_data)
     res.json(the_path_data)
 })
 
@@ -45,6 +43,7 @@ run.post('/getpath', async (req, res) =>{
 run.get('/postpath', async (req, res) =>{
     await res.json(the_path_data)
 })
+
 
 run.post('/getapis', async (req,res)=>{
     const acc = req.body.accountCode
@@ -78,6 +77,7 @@ run.post('/getapis', async (req,res)=>{
 
     res.redirect('/home.html')
 })
+
 
 run.get('/dashboard', async (req, res)=>{
     //console.log(obj)
