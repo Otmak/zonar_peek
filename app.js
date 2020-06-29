@@ -18,12 +18,22 @@ run.post('/getpath', async (req, res) =>{
     const account = req.body.theaccount
     const passwrd = req.body.thepass
     const gpsid = req.body.mani
-    const start = 1578614432
-    const end = 1578697232
+
+    const epochTOtimeStart = () => {  // Midnight Epoch
+        let t = new Date();
+        t.setUTCHours(0,0,0,0);
+        return t.getTime() / 1000.0
+    }
+
+    const epochTOtimeEnd = () => {  // Midnight Epoch
+        let t = new Date();
+        t.setUTCHours(23,59,0,0);
+        return t.getTime() / 1000.0
+    }
 
 
-    const mani_url = (`https://omi.zonarsystems.net/gtc/interface.php?action=twentytwenty&username=zonar&password=${passwrd}&operation=getmanifest&format=json&gpssn=${gpsid}&customer=zhd0001&mobiledevicetypeid=2`)
-    const path_url = (`https://omi.zonarsystems.net/interface.php?customer=${account}&username=zonar&password=${passwrd}&action=showposition&operation=path&reqtype=dbid&target=${p}&version=2&starttime=${start}&endtime=${end}&logvers=3&format=json`)
+    const mani_url = (`https://omi.zonarsystems.net/gtc/interface.php?action=twentytwenty&username=zonar&password=${passwrd}&operation=getmanifest&format=json&gpssn=${gpsid}&customer=${account}&mobiledevicetypeid=2`)
+    const path_url = (`https://omi.zonarsystems.net/interface.php?customer=${account}&username=zonar&password=${passwrd}&action=showposition&operation=path&reqtype=dbid&target=${p}&version=2&starttime=${epochTOtimeStart()}&endtime=${epochTOtimeEnd()}&logvers=3&format=json`)
     const path_req = await fetch(path_url).then(r=>r.json()).catch(err =>{console.log(err)})
     const mani_req = await fetch(mani_url).then(r=>r.json()).catch(err =>{console.log(err)})
     //console.log(mani_req)
