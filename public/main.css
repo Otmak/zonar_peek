@@ -1,6 +1,7 @@
 body {
 	background-color: #e1eaf2;
 	color: grey;
+	margin: 0;
 }
 /*#main_container {
 	background-color: #e1eaf2;
@@ -19,10 +20,26 @@ div#body_container {
 
 }*/
 
+/*TOP NAV STYLE*/
+#topnav {
+	overflow: hidden;
+	background-color: #fff;
+	height: 50px;
+}
+
+
 /****SEARCH BOX STYLE****/
 /*div#search_container{
 	box-shadow: 0px 0px 8px 2px #000000;
 }*/
+form#switch_acc{
+	display: none;
+}
+div#change_acc {
+	float: right;
+	cursor: pointer;
+}
+
 form#search_Form{
 	box-shadow: 0 8px 6px -6px black;
 }
@@ -55,12 +72,6 @@ div#loader {
 	animation: spin .3s linear infinite;
 }
 
-/* Safari */
-/*@-webkit-keyframes spin {
-  0% { -webkit-transform: rotate(0deg); }
-  100% { -webkit-transform: rotate(360deg); }
-}*/
-
 @keyframes spin {
 	0% { transform: rotate(0deg); }
 	100% { transform: rotate(360deg); }
@@ -91,13 +102,8 @@ div#asset_tab_content{
 /*Experiment*/
 div.div_right{
 	display:grid;
-	/*box-sizing: border-box;*/
-	/*grid-template-columns: max-content max-content;*/
 	background-color: #fff;
 	margin-left: .7em;
-	/*text-align: center;*/
-	/*width: 100%;*/
-	/*box-shadow: 0 10px 6px -6px #777;*/
 	float: right;
 
 }
@@ -108,11 +114,7 @@ div.div_left{
 	background-color: #fff;
 	/*	width: 400px;*/
 	height: max-content;
-	/*box-shadow: 0 10px 6px -6px #777;*/
 	float: left;
-	/*box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034), 0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06), 0 22.3px 17.9px rgba(0, 0, 0, 0.072), 0 41.8px 33.4px rgba(0, 0, 0, 0.086), 0 100px 80px rgba(0, 0, 0, 0.12);*/
-	/*flex-direction: row;*/
-	/*flex-direction: column;*/
 }
 
 /***************** THE GRID CONTROL*/

@@ -2,9 +2,9 @@ const main_container = document.getElementById('main_container');
 const b_container = document.getElementById('b_container');
 const tabs_container = document.getElementById('asset_tab_container');
 const asset_tab_content = document.getElementById('asset_tab_content');
-//const tabLoader = document.getElementById('loader');
+const switch_account = document.getElementById('changeacc');
+const switch_input = document.getElementById('switch_acc');
 const main_ul = document.getElementById('main_ul');
-//tabs_container.appendChild(tabLoader)
 tabs_container.appendChild(main_ul)
 
 async function runit() {
@@ -16,6 +16,8 @@ async function runit() {
     const locationAPI = allTheData.location_DATA.currentlocations.asset
 
 
+    switch_account.textContent = allTheData.acode
+    //console.log(switch_account,allTheData)
     function mergeCalls(obj1, obj2, obj3) {
         let g = 0, x, y, z, gpsID, assetID, assetNo;
         obj1.map(i=>{
@@ -74,12 +76,12 @@ async function runit() {
 
         function checkNaN(h) {
             let int = h.locationActivity.time
-            return int === undefined ? 'NaN' : parseInt(r.locationActivity.time)
+            return int == undefined || int == '' ? 'NaN' : parseInt(r.locationActivity.time)
         }
 
         function covertEpochToTime(t) {
             let time
-            if (t === 'NaN') {
+            if (t == 'NaN') {
                 time = ':/'
             } else {
                 let dt = new Date(t * 1000)
@@ -156,9 +158,6 @@ async function runit() {
         const tabLinks = new Array();
         const contentDivs = new Array();
 
-        ////////////////////////////////////////
-
-
         ///////////////////////////////////////
         function init() {
             const tabListItems = main_ul.childNodes;
@@ -169,8 +168,6 @@ async function runit() {
 
                     tabLinks[id] = tabLink;
                     contentDivs[id] = document.getElementById(id);
-                    //console.log(contentDivs[id],tabLinks[id] )
-                    //console.log(id)
                 }
             }
 
@@ -179,10 +176,7 @@ async function runit() {
                 tabLinks[id].onclick = showContent;
                 if (i == 0)
                     tabLinks[id].parentNode.classList.add('selected');
-                //console.log(tabLinks[id].parentNode)
                 i++
-                //console.log(i)
-                // console.log(tabLinks[id])
             }
 
             i = 0;
@@ -203,7 +197,6 @@ async function runit() {
                     tabLinks[id].parentNode.classList.add('selected');
                     contentDivs[id].className = 'data_tab_content';
 
-
                     const thepgsid = contentDivs[id].childNodes[1].childNodes[1].innerHTML
 
                     function isgpsEmpty(){
@@ -211,23 +204,19 @@ async function runit() {
                         return thepgsid =='' ? 0 : thepgsid
                     }
 
-                    //console.log(isgpsEmpty())
-                    //console.log( document.getElementById(`table_div_${path_id}`) )
+
                     if (document.getElementById(`table_div_${path_id}`) ){
                         console.log('it exits')
                     }else{
                         console.log('No div found')
                         showMePath(path_id, contentDivs[id], isgpsEmpty())
                     }
-
                     //showMePath(hId);
                 } else {
                     tabLinks[id].parentNode.classList.remove('selected');
                     contentDivs[id].className = 'data_tab_content hide';
                 }
-
             }
-
             return false;
         }
 
@@ -245,7 +234,6 @@ async function runit() {
         }
 
         init()
-        //console.log(asset, status)
             //////////////////////////////// THE PATH ///////////////////////////////////
 
             async function showMePath(id_, parentDiv, mani) {
@@ -254,9 +242,8 @@ async function runit() {
                 table_div.setAttribute('id', `table_div_${id_}`)
                 table_div.setAttribute('data-check', id_)
                 table_div.setAttribute('class', 'table_div')
-                //const theId = closest('.asset_tab').getAttribute('data-set')
 
-                //console.log(table_div, idHandle)
+
                 const p = allTheData.pass
                 const ac = allTheData.acode
                 const req = await fetch('getpath', {
@@ -291,7 +278,6 @@ async function runit() {
 
                 }else
                 {
-                    //console.log(maniData)
                     //const mani_container = document.createElement('div')
                     const div_right = document.createElement('div');
                     div_right.setAttribute('class', 'div_right content_divs');
@@ -360,24 +346,41 @@ async function runit() {
                             cell.innerHTML = data[i][columnName];
                         });
                     }
-                    //console.log(table_div, table_div.parentNode)
-
-                    //const dvTable = document.getElementById("dvTable");
-                    //table_div.setAttribute('id', id_);
                     parentDiv.appendChild(table_div)
                     table_div.innerHTML = "";
                     table_div.appendChild(table);
                     //console.log(parentDiv, table_div)
-
                 }
-
-
             }
             ///////////////////////////////////////////////////////////////////
-
-
     }
     )
+
+
+    switch_account.addEventListener('click', e => {
+        if (switch_input.style.display == '' || switch_input.style.display == 'none') {
+            switch_input.style.display = 'block'
+        }else {
+            switch_input. style.display = 'none'
+        }
+    })
+
+
+    switch_input.addEventListener('submit', async (e)=>{
+        const acc_input = document.getElementById('switch_account_code').value
+        e.preventDefault();
+        const switch_req = await fetch('getapis', {
+            method: 'POST',
+            body: JSON.stringify({
+                'password': allTheData.pass,
+                'accountCode': acc_input,
+            }),
+            headers: {'Content-Type': 'application/json'}
+        })
+        console.log('submited!', acc_input)
+        setTimeout(location.reload(),3000)
+        //location.reload()
+    })
 
 
     search.addEventListener('keyup', e=>{

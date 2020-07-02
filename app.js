@@ -34,17 +34,17 @@ run.post('/getpath', async (req, res) =>{
 
     const mani_url = (`https://omi.zonarsystems.net/gtc/interface.php?action=twentytwenty&username=zonar&password=${passwrd}&operation=getmanifest&format=json&gpssn=${gpsid}&customer=${account}&mobiledevicetypeid=2`)
     const path_url = (`https://omi.zonarsystems.net/interface.php?customer=${account}&username=zonar&password=${passwrd}&action=showposition&operation=path&reqtype=dbid&target=${p}&version=2&starttime=${epochTOtimeStart()}&endtime=${epochTOtimeEnd()}&logvers=3&format=json`)
-    const path_req = await fetch(path_url).then(r=>r.json()).catch(err =>{console.log(err)})
-    const mani_req = await fetch(mani_url).then(r=>r.json()).catch(err =>{console.log(err)})
-    //console.log(mani_req)
-    if (mani_req.error){
-        console.log('NO MANI')
-    } else {
-        console.log('MANI exits')
-    }
+    const path_req = await fetch(path_url).then(r=>r.json()).catch(err =>{ err})
+    const mani_req = await fetch(mani_url).then(r=>r.json()).catch(err =>{err})
+    console.log(mani_req)
+    // if (mani_req.error){
+    //     console.log('NO MANI')
+    // } else {
+    //     console.log('MANI exits')
+    // }
 
     path_req.pathevents.assets == null ? the_path_data['path'] = '404' : the_path_data['path'] = path_req.pathevents.assets[0].events;
-    mani_req.error ? the_path_data['mani'] = '404' : the_path_data['mani'] = mani_req;
+    undefined || mani_req.error ? the_path_data['mani'] = '404' : the_path_data['mani'] = mani_req;
 
     res.json(the_path_data)
 })
@@ -72,6 +72,7 @@ run.post('/getapis', async (req,res)=>{
     const gps_data = await gps_res.text();
     const location_data = await location_res.text();
 
+
     convertXML.parseString(asset_data, {explicitArray:false}, function(err, data){
         obj['asset_DATA'] = data
         return obj
@@ -85,7 +86,14 @@ run.post('/getapis', async (req,res)=>{
         return obj
     })
 
-    res.redirect('/home.html')
+    if (obj.asset_DATA.error) {
+        res.redirect('/')
+    } else {
+        res.redirect('/home.html')
+    }
+    console.log(obj.asset_DATA.error)
+
+
 })
 
 
