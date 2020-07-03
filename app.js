@@ -36,7 +36,7 @@ run.post('/getpath', async (req, res) =>{
     const path_url = (`https://omi.zonarsystems.net/interface.php?customer=${account}&username=zonar&password=${passwrd}&action=showposition&operation=path&reqtype=dbid&target=${p}&version=2&starttime=${epochTOtimeStart()}&endtime=${epochTOtimeEnd()}&logvers=3&format=json`)
     const path_req = await fetch(path_url).then(r=>r.json()).catch(err =>{ err})
     const mani_req = await fetch(mani_url).then(r=>r.json()).catch(err =>{err})
-    console.log(mani_req)
+    //console.log(mani_req)
     // if (mani_req.error){
     //     console.log('NO MANI')
     // } else {
