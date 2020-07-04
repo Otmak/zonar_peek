@@ -3,11 +3,13 @@ const run = express();
 const bodyParser = require('body-parser');
 const fetch = require('node-fetch');
 const convertXML = require('xml2js');
+const port = process.env.port || 5500;
 run.use(express.static('public'));
 run.use(bodyParser.urlencoded({ extended: false }));
 run.use(express.json())
-run.listen(5500, (req,res)=>{
-    console.log( "**You're Connected at port : 5500")
+
+run.listen(port, (req,res)=>{
+    console.log( `**You're Connected at port : ${port}`)
 })
 const obj = {}
 const the_path_data = {}
