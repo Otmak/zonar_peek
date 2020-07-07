@@ -49,8 +49,8 @@ async function runit() {
     }
 
 
-    document.title = `Viewing ${allTheData.theaccount}`;
-    //switch_account.textContent = allTheData.theaccount.toUpperCase();
+    switch_account.textContent = allTheData.acode.toUpperCase();
+    document.title = `Viewing ${allTheData.acode}`;
 
     mergeCalls(assetAPI, gpsAPI, locationAPI).map(async (r)=>{
         const tab = document.createElement('li');
@@ -398,6 +398,8 @@ async function runit() {
 
         m_form.addEventListener('submit', async (e)=>{
             const acc_input = document.getElementById('switch_account_code').value
+            const sub_spin = document.createElement('i')
+            sub_spin.setAttribute('class', 'fa fa-spinner fa-spin')
             e.preventDefault();
             const switch_req = await fetch('getapis', {
                 method: 'POST',
@@ -407,30 +409,14 @@ async function runit() {
                 }),
                 headers: {'Content-Type': 'application/json'}
             })
-            console.log('submited!', acc_input)
+            //console.log('submited!', acc_input)
             setTimeout(location.reload(),3000)
+            document.getElementById('changeacc').appendChild(sub_spin)
 
         })
 
     }
 
-
-
-    // switch_input.addEventListener('submit', async (e)=>{
-    //     const acc_input = document.getElementById('switch_account_code').value
-    //     e.preventDefault();
-    //     const switch_req = await fetch('getapis', {
-    //         method: 'POST',
-    //         body: JSON.stringify({
-    //             'password': allTheData.pass,
-    //             'accountCode': acc_input,
-    //         }),
-    //         headers: {'Content-Type': 'application/json'}
-    //     })
-    //     console.log('submited!', acc_input)
-    //     setTimeout(location.reload(),3000)
-    //     //location.reload()
-    // })
 
     switch_account.addEventListener('click', e => {
         changeAcount()
