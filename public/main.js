@@ -397,10 +397,12 @@ async function runit() {
 
 
         m_form.addEventListener('submit', async (e)=>{
+            const get_form = document.getElementById('switch_acc')
             const acc_input = document.getElementById('switch_account_code').value
             const sub_spin = document.createElement('i')
             sub_spin.setAttribute('class', 'fa fa-spinner fa-spin')
             e.preventDefault();
+            get_form.appendChild(sub_spin);
             const switch_req = await fetch('getapis', {
                 method: 'POST',
                 body: JSON.stringify({
@@ -409,9 +411,8 @@ async function runit() {
                 }),
                 headers: {'Content-Type': 'application/json'}
             })
-            //console.log('submited!', acc_input)
+            console.log('submited!', get_form)
             setTimeout(location.reload(),3000)
-            document.getElementById('changeacc').appendChild(sub_spin)
 
         })
 
