@@ -420,9 +420,15 @@ async function runit() {
 
 
     switch_account.addEventListener('click', e => {
-        changeAcount()
-        document.getElementById('modal').style.display = "block";
 
+        changeAcount()
+        const themodal = document.getElementById('modal');
+        themodal.style.display = "block";
+        window.onclick = (e) => {
+            if (e.target == themodal) {
+                themodal.style.display = "none";
+            }
+        }
     })
 
 
