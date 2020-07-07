@@ -7,6 +7,7 @@ const switch_input = document.getElementById('switch_acc');
 const main_ul = document.getElementById('main_ul');
 tabs_container.appendChild(main_ul)
 
+
 async function runit() {
     const req = await fetch('dashboard');
     const allTheData = await req.json();
@@ -47,6 +48,9 @@ async function runit() {
         return obj1
     }
 
+
+    document.title = `Viewing ${allTheData.theaccount}`;
+    //switch_account.textContent = allTheData.theaccount.toUpperCase();
 
     mergeCalls(assetAPI, gpsAPI, locationAPI).map(async (r)=>{
         const tab = document.createElement('li');
@@ -268,7 +272,7 @@ async function runit() {
                     const mani_oops = document.createElement('div');
                     const mani_p = document.createElement('p');
                     const div_right = document.createElement('div');
-                    div_right.setAttribute('class', 'div_right content_divs');
+                    div_right.setAttribute('class', 'div_right_oops content_divs');
                     mani_oops.setAttribute('class', 'mani_oops')
                     mani_p.textContent = 'No data to show here'
                     div_right.appendChild(mani_oops);
@@ -278,31 +282,41 @@ async function runit() {
 
                 }else
                 {
-                    //const mani_container = document.createElement('div')
                     const div_right = document.createElement('div');
                     div_right.setAttribute('class', 'div_right content_divs');
-                    let apps_arr = maniData.packageManifest.apps
-                    const the_head = document.createElement('span')
-                    the_head.setAttribute('class', 'the_head')
-                    the_head.textContent = `${apps_arr[0].label} (${apps_arr[0].availableVersionCode})`;
+                    let apps_arr = maniData.packageManifest.apps;
 
-                    const mani_details = document.createElement('details')
-                    const mani_summary = document.createElement('summary')
-                    mani_summary.textContent = 'Apps'
+
+                    const mani_details_apps = document.createElement('details')
+                    const mani_summary_apps = document.createElement('summary')
+                    mani_summary_apps.textContent = 'Apps'
                     for (var i = 1; i < apps_arr.length; i++) {
-                        //console.log(apps_arr[i])
                         const mani_s = document.createElement('p')
 
                         mani_s.textContent = `${apps_arr[i].label} (${apps_arr[i].availableVersionCode})`
-
-                        mani_details.appendChild(mani_s);
-                        //div_right.appendChild(mani_s);
+                        mani_details_apps.appendChild(mani_s);
                     }
-                    mani_details.appendChild(mani_summary);
+
+                    mani_details_apps.appendChild(mani_summary_apps);
                     parentDiv.appendChild(div_right);
-                    div_right.appendChild(mani_details);
-                    div_right.appendChild(the_head);
-                    console.log(maniData)
+
+                    const title_handles = ['Tablet Firmware (Build No.)', 'Screen off in motion', 'Clear Cache', 'Auto Lougout', 'Audio off W/Motion'];
+                    const title_value = [maniData.firmware.buildNumber, apps_arr[0].settings.screenOffInMotion, `${apps_arr[0].settings.profileCacheTtlDays} days`, `${apps_arr[0].settings.autoLogoutTtlSecs} Seconds`, apps_arr[0].settings.audioOffInMotion]
+                    for (let i = 0; i < title_handles.length; i++) {
+                        const th_span = document.createElement('span');
+                        const tv_span = document.createElement('span');
+                        th_span.setAttribute('class', 'th_span');
+                        tv_span.setAttribute('class', 'tv_span values');
+
+
+                        th_span.textContent = title_handles[i];
+                        tv_span.textContent = title_value[i];
+                        div_right.appendChild(th_span);
+                        div_right.appendChild(tv_span);
+
+
+                    }
+                    div_right.appendChild(mani_details_apps);
                 }
 
                 if ( data == 404)
@@ -312,15 +326,13 @@ async function runit() {
                     oops.setAttribute('class', 'oops_div content_divs')
                     const oops_span = document.createElement('span');
 
-                    oops_span.textContent = 'Well this is awkward -_-';
+                    oops_span.textContent = 'There is no path data to show';
                     parentDiv.appendChild(oops);
                     oops.appendChild(table_div);
                     table_div.appendChild(oops_span);
 
                 }else
                 {
-                    //let alltotalColumns = Object.keys(data[0]).length
-                    //console.log(alltotalColumns - 3)
                     let totalColumns = Object.keys(data[0]).length - 4;
                     let columnNames = [];
                     columnNames = Object.keys(data[0]);
@@ -335,7 +347,6 @@ async function runit() {
                         let headerCell = document.createElement("TH");
                         headerCell.innerHTML = columnNames[i];
                         row.appendChild(headerCell);
-                        //columnNames.splice(6, 1, 'distance')
                     }
 
                     // Add the data rows.
@@ -352,34 +363,79 @@ async function runit() {
                     //console.log(parentDiv, table_div)
                 }
             }
-            ///////////////////////////////////////////////////////////////////
-    }
-    )
-
-
-    switch_account.addEventListener('click', e => {
-        if (switch_input.style.display == '' || switch_input.style.display == 'none') {
-            switch_input.style.display = 'block'
-        }else {
-            switch_input. style.display = 'none'
-        }
+            //////////////////////////////// PATH AND MANI END ////////////////////////////////
     })
 
 
-    switch_input.addEventListener('submit', async (e)=>{
-        const acc_input = document.getElementById('switch_account_code').value
-        e.preventDefault();
-        const switch_req = await fetch('getapis', {
-            method: 'POST',
-            body: JSON.stringify({
-                'password': allTheData.pass,
-                'accountCode': acc_input,
-            }),
-            headers: {'Content-Type': 'application/json'}
+    function changeAcount () {
+        const main_modal = document.createElement('div')
+        const modal_div = document.createElement('div')
+        const m_form = document.createElement('form')
+        const m_input = document.createElement('input')
+        const m_span = document.createElement('span')
+        m_form.setAttribute('id', 'switch_acc')
+        m_input.setAttribute('id', 'switch_account_code')
+        m_input.setAttribute('placeholder', 'Enter account code')
+        modal_div.setAttribute('class', 'modal-content')
+        main_modal.setAttribute('id', 'modal')
+
+        main_modal.appendChild(modal_div)
+        modal_div.appendChild(m_form)
+        m_form.appendChild(m_input)
+        main_container.appendChild(main_modal)
+        modal_div.appendChild(m_span)
+        //m_span.textContent = 'x'
+
+        // switch_account.onclick = ()=> {
+        //     main_modal.style.display = "block";
+        // }
+        window.onclick = function(event) {
+            if (event.target == main_modal) {
+                main_modal.style.display = "none";
+            }
+        }
+
+
+        m_form.addEventListener('submit', async (e)=>{
+            const acc_input = document.getElementById('switch_account_code').value
+            e.preventDefault();
+            const switch_req = await fetch('getapis', {
+                method: 'POST',
+                body: JSON.stringify({
+                    'password': allTheData.pass,
+                    'accountCode': acc_input,
+                }),
+                headers: {'Content-Type': 'application/json'}
+            })
+            console.log('submited!', acc_input)
+            setTimeout(location.reload(),3000)
+
         })
-        console.log('submited!', acc_input)
-        setTimeout(location.reload(),3000)
-        //location.reload()
+
+    }
+
+
+
+    // switch_input.addEventListener('submit', async (e)=>{
+    //     const acc_input = document.getElementById('switch_account_code').value
+    //     e.preventDefault();
+    //     const switch_req = await fetch('getapis', {
+    //         method: 'POST',
+    //         body: JSON.stringify({
+    //             'password': allTheData.pass,
+    //             'accountCode': acc_input,
+    //         }),
+    //         headers: {'Content-Type': 'application/json'}
+    //     })
+    //     console.log('submited!', acc_input)
+    //     setTimeout(location.reload(),3000)
+    //     //location.reload()
+    // })
+
+    switch_account.addEventListener('click', e => {
+        changeAcount()
+        document.getElementById('modal').style.display = "block";
+
     })
 
 
@@ -391,15 +447,12 @@ async function runit() {
         dataContent.forEach(i=>{
             const searchedItem = i.textContent.toLowerCase();
             if (searchedItem.indexOf(input) != -1) {
-                //console.log(i)
                 i.style.display = 'block';
             } else {
                 i.style.display = 'none';
             }
-        }
-        )
-    }
-    )
+        })
+    })
 
 }
 runit()

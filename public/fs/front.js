@@ -9,7 +9,7 @@ pop.setAttribute('class', 'pop')
 span.setAttribute('class', 'span')
 //console.log(pop.style)
 
-
+document.title = 'Enter Account code and Password'
 form.addEventListener('submit', (e)=>{
 	validateForm(e);
 	// the_button.appendChild(loader);

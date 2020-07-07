@@ -23,13 +23,13 @@ run.post('/getpath', async (req, res) =>{
 
     const epochTOtimeStart = () => {  // Midnight Epoch
         let t = new Date();
-        t.setUTCHours(0,0,0,0);
+        t.setHours(0,0,0,0);
         return t.getTime() / 1000.0
     }
 
     const epochTOtimeEnd = () => {  // Midnight Epoch
         let t = new Date();
-        t.setUTCHours(23,59,0,0);
+        t.setHours(23,59,0,0);
         return t.getTime() / 1000.0
     }
 
@@ -48,6 +48,8 @@ run.post('/getpath', async (req, res) =>{
     path_req.pathevents.assets == null ? the_path_data['path'] = '404' : the_path_data['path'] = path_req.pathevents.assets[0].events;
     undefined || mani_req.error ? the_path_data['mani'] = '404' : the_path_data['mani'] = mani_req;
 
+
+
     res.json(the_path_data)
 })
 
@@ -62,7 +64,7 @@ run.post('/getapis', async (req,res)=>{
     const pass = req.body.password
     obj['acode'] = acc
     obj['pass'] = pass
-    console.log(acc,pass)
+    //console.log(acc,pass)
     const asset_url = (`https://omi.zonarsystems.net/interface.php?customer=${acc}&username=zonar&password=${pass}&action=showopen&operation=showassets&format=xml`);
     const gps_url = (`https://omi.zonarsystems.net/interface.php?customer=${acc}&username=zonar&password=${pass}&action=showopen&operation=showgps&format=xml`);
     const location_url = (`https://omi.zonarsystems.net/interface.php?customer=${acc}&username=zonar&password=${pass}&action=showposition&operation=current&format=xml&version=2&logvers=3.6&customer=${acc}&startrow=0&count=1000&sortfield=lasttime&sortdir=asc`);
@@ -70,7 +72,6 @@ run.post('/getapis', async (req,res)=>{
     const gps_res = await fetch(gps_url);
     const location_res = await fetch(location_url);
     const asset_data = await asset_res.text();
-    //console.log(asset_data)
     const gps_data = await gps_res.text();
     const location_data = await location_res.text();
 
@@ -93,7 +94,7 @@ run.post('/getapis', async (req,res)=>{
     } else {
         res.redirect('/home.html')
     }
-    console.log(obj.asset_DATA.error)
+    //console.log(obj.asset_DATA.error)
 
 
 })
