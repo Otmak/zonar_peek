@@ -201,7 +201,7 @@ async function runit() {
                     tabLinks[id].parentNode.classList.add('selected');
                     contentDivs[id].className = 'data_tab_content';
 
-                    const thepgsid = contentDivs[id].childNodes[1].childNodes[1].innerHTML
+                    const thepgsid = contentDivs[id].getElementsByClassName('values')[0].textContent
 
                     function isgpsEmpty(){
 
