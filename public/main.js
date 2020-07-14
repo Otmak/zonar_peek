@@ -135,7 +135,10 @@ async function runit() {
         asset_info.setAttribute('id', `id_${idHandle}`);
         asset_info.setAttribute('data-path-data', idHandle)
         const h2 = document.createElement('h2');
-        h2.setAttribute('class', 'top_header');
+        const h2div = document.createElement('div');
+        const refresh_asset = document.createElement('i');
+        refresh_asset.setAttribute('class', 'fa fa-refresh refresh_asset')
+        h2div.setAttribute('class', 'top_header');
 
 
         for (var i = 0; i < l_valuesArr.length; i++) {
@@ -153,7 +156,9 @@ async function runit() {
 
 
         asset_tab_content.appendChild(asset_info);
-        asset_info.appendChild(h2);
+        asset_info.appendChild(h2div);
+        h2div.appendChild(h2);
+        h2div.appendChild(refresh_asset);
         asset_info.appendChild(div_left);
 
         h2.textContent = " ASSET  : " + asset;
@@ -376,7 +381,7 @@ async function runit() {
         m_form.setAttribute('id', 'switch_acc')
         m_input.setAttribute('id', 'switch_account_code')
         m_input.setAttribute('placeholder', 'Enter account code')
-        modal_div.setAttribute('class', 'modal-content')
+        modal_div.setAttribute('class', 'modal-content border_rad')
         main_modal.setAttribute('id', 'modal')
 
         main_modal.appendChild(modal_div)
@@ -421,7 +426,11 @@ async function runit() {
 
     switch_account.addEventListener('click', e => {
 
-        changeAcount()
+        if (document.getElementById('modal')) {
+            document.getElementById('modal').style.display = 'block';
+        }else{
+            changeAcount()
+        }
         const themodal = document.getElementById('modal');
         themodal.style.display = "block";
         window.onclick = (e) => {
