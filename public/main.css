@@ -6,6 +6,9 @@ body {
 .border_rad {
 	border-radius: 10px;
 }
+details {
+	color: rgb(30,144,255);
+}
 /*#main_container {
 	background-color: #e1eaf2;
 	width: 92vw;
@@ -13,6 +16,9 @@ body {
 	margin: auto;
 	overflow: auto;
 }*/
+details p {
+	color: #0f0f0f;
+}
 
 div#body_container {
 	padding: 2em;
