@@ -272,7 +272,7 @@ async function runit() {
                 const data = parse_the_data.path
                 const maniData = parse_the_data.mani
 
-                if ( maniData == 404 )
+                if ( maniData == 404 || maniData.packageManifest.apps[0].settings == null)
                 {
                     const mani_oops = document.createElement('div');
                     const mani_p = document.createElement('p');
