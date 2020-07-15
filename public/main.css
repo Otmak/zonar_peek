@@ -283,6 +283,7 @@ li a{
 	box-sizing: border-box;
 	width: 100%;
 	text-decoration: none;
+	color: rgb(30,144,255);
 }
 
 .selected{
